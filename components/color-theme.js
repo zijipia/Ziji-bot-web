@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Paintbrush } from "lucide-react";
+import { useEffect } from "react";
 
 const themes = [
 	{
@@ -54,12 +55,22 @@ const themes = [
 ];
 
 export function ColorTheme() {
+	useEffect(() => {
+		// Load Theme history from localStorage when component mounts
+		const savedHistory = localStorage.getItem("ColorTheme");
+		if (savedHistory) {
+			setTheme(JSON.parse(savedHistory));
+		}
+	}, []);
+
 	const setTheme = (theme) => {
 		const root = document.documentElement;
 		themes.forEach((t) => {
 			root.classList.remove(t.class);
 		});
 		root.classList.add(theme);
+		// Add to Theme history
+		localStorage.setItem("ColorTheme", JSON.stringify(theme));
 	};
 
 	return (

@@ -1,3 +1,5 @@
+"use client";
+
 import { LoginButton } from "./login-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCallback, useEffect, useState } from "react";
@@ -26,7 +28,9 @@ export function LoginScreen() {
 
 			const data = await response.json();
 			setSearchResults(data);
-		} catch (error) {}
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
 	}, []);
 
 	return (
@@ -38,7 +42,7 @@ export function LoginScreen() {
 							src={searchResults?.avatars}
 							alt={searchResults?.clientName}
 						/>
-						<AvatarFallback>{searchResults?.avatars}</AvatarFallback>
+						<AvatarFallback>{searchResults?.clientName?.[0]}</AvatarFallback>
 					</Avatar>
 				</div>
 				<h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none mb-5'>
